@@ -1,0 +1,21 @@
+project:
+  output-dir: .
+  
+format:
+  html:
+    self-contained: true
+    theme: flatly
+    highlight: solarized-light
+    css: styles.css
+    toc: true
+    toc_float: true
+  revealjs:
+    highlight: solarized-light
+    self-contained: true
+    scrollable: true
+  docx: 
+    reference-doc: ../bibliography/reference.docx
+
+knitr:
+  opts_chunk:
+    results: markup

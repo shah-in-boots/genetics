@@ -1,0 +1,273 @@
+---
+title: Variant Calling
+subtitle: Arrhythmia Panel Analysis
+date: September 14, 2023
+author: Anish S. Shah, MD, MS
+institute: 
+- University of Illinois at Chicago 
+- Emory University
+format: html
+execute: 
+  warning: false
+  echo: true
+  output: true
+---
+
+# Introduction
+
+We are using a specific patient example named `UIC0003` in this case.
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(VariantAnnotation)
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+library(GenomicFeatures)
+library(AnnotationHub)
+library(vari)
+
+# VCF
+vcf <- readVcf(here::here('data/Broad-AF-UIC-Cases-UIC0003.vcf'))
+
+# Annotations
+
+```
+
+This is an example of what is contained within an VCF file. Primarily will review the header information here.
+
+```{r}
+#| label: print VCF
+print(vcf)
+```
+
+## Header information
+
+```{r}
+#| label: header
+header(vcf)
+```
+
+- Name/number of sample(s) = `r samples(header(vcf))`
+
+There is a __meta__ region as well.
+
+```{r}
+#| label: meta info
+x <- meta(header(vcf))
+x
+
+# File format
+x$fileformat
+```
+
+
+```{r}
+#| label: sources
+#| collapse: true
+# Sources for variant calling
+x$source
+x$source.1
+x$source.2
+x$source.3
+x$source.4
+x$source.5
+```
+
+There appear to be multiple sources from how variants were called.
+
+```{r}
+#| label: GATK
+
+# We can see where the variants were called using GATK
+x$GATKCommandLine
+
+# We can also evaluate how the data is arranged
+x$contig
+```
+
+The fixed information from multiple samples could also be stored in the header. This is however just a single sample. 
+
+```{r}
+#| label: VCF information
+
+# All column information
+info(header(vcf))
+
+# All genotype information 
+geno(header(vcf))
+```
+
+## Basics of variants
+
+Variant information stored in specific `BioConductor` format. 
+
+```{r}
+#| label: variant positions
+rd <- rowRanges(vcf)
+
+# Example of three variants
+rd[1:3]
+
+# Chromosome
+as.vector(seqnames(rd)[1:3])
+
+# Start and end positions
+start(rd)[1:3]
+end(rd)[1:3]
+```
+
+Reference alleles can also be retrieved.
+
+```{r}
+#| label: variant refs
+refBase <- ref(vcf)
+refBase[1:3]
+
+# Simple nucleotides
+as.character(refBase)[1:3]
+```
+
+We can also see information about each variant. Each variant 
+
+```{r}
+#| label: summary of variants
+info(vcf)[1:3,]
+```
+
+## Genotype Data
+
+We can see the genotypes for individual genes as well as overall. They options are...
+
+- `0/1` = heterozygous mutations, one allele same as reference
+- `1/1` = homozygous mutations, both alleles are different from reference
+- `1/2` = heterozygous mutations, both allele are different from reference
+
+### Types of mutations
+
+```{r}
+#| label: genotypes
+
+# Example genotype
+geno(vcf)$GT[1:3, ]
+
+# Summary of GT types
+tbl <- 
+  table(geno(vcf)$GT) |>
+  as.data.frame() |>
+  tibble() |>
+  arrange(-Freq) |>
+  filter(Freq >= 100) |>
+  mutate(Var = as.character(Var1)) |>
+  dplyr::select(-Var1)
+
+tbl
+```
+
+We can visualize the distributions as well for GT types.
+
+```{r}
+#| label: plot GT type
+ggplot(tbl, aes(x = Var, y = Freq, fill = Var)) +
+  geom_bar(stat = 'identity') +
+  labs(y = 'Counts') +
+  theme_classic()
+```
+
+### Read depth
+
+```{r}
+#| label: read depth
+geno(header(vcf))[3, 3]
+
+# Example of read depths
+matDP <- geno(vcf)$DP
+matDP[1:3, ]
+
+# Summary
+summary(as.vector(matDP))
+
+# Plot
+ggplot(as.data.frame(matDP), aes(x = UIC0003)) +
+  geom_histogram() +
+  labs(x = '', y = 'Counts') + 
+  scale_x_log10() +
+  theme_classic()
+```
+
+### Genotype quality
+
+The __GQ__ attribute reflects the quality or confidence in the genotyping. Also called the *Phred quality score*.
+
+```{r}
+#| label: genotype quality
+geno(header(vcf))[4, 3]
+
+# Example
+matGQ <- geno(vcf)$GQ
+matGQ[1:3, ]
+
+# Summary
+summary(as.vector(matGQ))
+
+# Plot out quality
+ggplot(as.data.frame(matGQ), aes(x = UIC0003)) + 
+  geom_histogram() +
+  labs(x = '', y = 'Counts') +
+  scale_x_log10() + 
+  theme_classic()
+```
+
+## Variant Information
+
+May need to get simple or specific variants. E.g. simple or point mutations such as GT 0/1 or 1/1
+
+```{r}
+#| label: variant selection
+var <-
+  rownames(geno(vcf)$GT)[geno(vcf)$GT == '0/1' |
+                           geno(vcf)$GT == '1/1' |
+                           geno(vcf)$GT == '0|1' |
+                           geno(vcf)$GT == '1|1']
+
+# Get specific variants
+varTab <- data.frame(
+  variant = names(rd)[names(rd) %in% var],
+  chr = as.vector(seqnames(rd)[names(rd) %in% var]),
+  start = start(rd)[names(rd) %in% var],
+  end = end(rd)[names(rd) %in% var],
+  stringsAsFactors = FALSE
+)
+head(varTab)
+
+# Get the reference alleles
+# Attach back to variant table
+ref_base <- ref(vcf)[rownames(vcf) %in% var]
+ref_base[1:3]
+varTab$ref_base <- as.character(ref_base)
+
+# Similarly do same with alternative alleles
+dna_strings <- alt(vcf)[rownames(vcf) %in% var][1:10000] 
+
+alt_base <- lapply(dna_strings, function(.x) as.character(.x[[1]])) |> unlist()
+alt_base <- purrr::map_chr(dna_strings, ~ as.character(.x[[1]]))
+alt_base[1]
+
+alt_base <- lapply(alt_base, as.character)
+alt_base[1]
+
+varTab$alt_base <- unlist(alt_base)
+```
+
+# Annotation
+
+Annotation allows for contextualizing variants. 
+However, there are many different data resources for annotation, which are made uniform in `{AnnotationHub}`. 
+This overall creates a cached resource to scan or evaluate annotations that are available online.
+
+```{r}
+#| label: annotation hub
+ah <- AnnotationHub()
+```
+
+
+# Variant Filtering

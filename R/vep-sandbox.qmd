@@ -23,18 +23,23 @@ This can also be done in the form of a text file which has more "columnar" data 
 vep -i ../data/Broad-AF-UIC-Cases-UIC0002.vcf -o ../data/sample-vep.txt --offline --everything --fork 4
 ```
 
-Both of these types of files that are direct outputs of the `vep` command can be filtered afterwards. This filtering process, using the `filter_vep` command, is done __after__ any plugins or additional annotation of consequences is done.
+Both of these types of files that are direct outputs of the `vep` command can be filtered afterwards. 
+This filtering process, using the `filter_vep` command, is done __after__ any plugins or additional annotation of consequences is done.
 
 ```{bash}
 #| eval: false
 filter_vep -i sample-vep.txt -o sample-filter.txt -filter "SYMBOL is TTN and SIFT != tolerated and PolyPhen != benign" --force
 ```
 
+One of the relevant extensible parts of VEP is that it can be used with plugins. 
+Some are built in, and some have to be referenced indirectly. 
+The following sample is an example of using the LOFTEE plugin to help identify potential loss-of-function variants, either through early truncation or deletion. 
 ```{bash}
 #| eval: false
 vep -i Broad-AF-UIC-Cases-UIC0002.vcf -o sample-loftee.txt --fork 4 --plugin LoF,loftee_path:/Users/asshah4/tools/loftee/,human_ancestor_fa:false --dir_plugin /Users/asshah4/tools/loftee/
 ```
 
 ```{bash}
+#| eval: false
 vep -i Broad-AF-UIC-Cases-UIC0002.vcf -o STDOUT --no_stats --cache --force --everything --plugin LoF,loftee_path:/Users/asshah4/tools/loftee/ --dir_plugins /Users/asshah4/tools/loftee/ | filter_vep -filter "SYMBOL is TTN and LoF" -o sample-loftee-ttn.txt --force
 ```

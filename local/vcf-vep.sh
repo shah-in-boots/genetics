@@ -13,7 +13,7 @@ for file in *.vcf; do
     vep -i $file -o ${base_name}.txt --verbose --fork 4 --offline --no_stats --polyphen s --sift s --symbol --show_ref_allele --plugin LoF,loftee_path:/Users/asshah4/tools/loftee/,human_ancestor_fa:false --dir_plugin /Users/asshah4/tools/loftee/
 
     # Filter to reduce filesize
-    filter_vep -i ${base_name}.txt -o ${base_name}-filter.txt -filter "SYMBOL is TTN and (LoF is HC or LoF is LC)"
+    filter_vep -i ${base_name}.txt -o ${base_name}-ttn.txt -filter "SYMBOL is TTN and (LoF is HC or LoF is LC)"
 
     # Remove previous filtered file
     rm ${base_name}.txt

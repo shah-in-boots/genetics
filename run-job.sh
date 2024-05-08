@@ -2,7 +2,7 @@
 
 #SBATCH --partition=cpu-t3
 #SBATCH --job-name=loftee
-#SBATCH --nodes=10
+#SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --error=slurm-%J.err
 #SBATCH --output=slurm-%J.out

@@ -8,10 +8,10 @@ clinical <-
   select(study_id, family_history) |>
   filter(family_history == 1)
 
-afl_ids <-  
+afl_ids <-
   tar_read(flutter_ids, store = "../aflubber/_targets/") |>
   filter(!is.na(dna_id)) |>
-  filter(str_detect(dna_id, pattern = "UIC")) 
+  filter(str_detect(dna_id, pattern = "UIC"))
 
 # Find flutter history ids
 ids <-
@@ -36,3 +36,7 @@ geno(header(vcf))
 geno(vcf)
 geno(header(vcf))['GT', ]
 GT <- geno(vcf)$GT
+
+# New WES data ----
+
+x <- vroom::vroom("~/Downloads/sample.tsv")

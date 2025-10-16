@@ -6,14 +6,16 @@ VEP_DIR="$HOME/.vep"
 INPUT_DIR="$HOME/projects/genetics/data/uic_second_batch/vcf"
 OUTPUT_DIR="$HOME/projects/genetics/data/uic_second_batch/vep"
 LOFTEE_DIR="$HOME/.vep/loftee"
+VEP_SIF="$HOME/vep.sif"
 
 # This generally works for LoF, assuming that Loftee is in the correct place
 # Dockerized version works well as long as files are mounted appropriately
-docker run \
-	-v ${VEP_DIR}:/data \
-	-v ${INPUT_DIR}:/input \
-	-v ${OUTPUT_DIR}:/output \
-	-v ${LOFTEE_DIR}:/plugins \
+# Need the apptainer to be mounted before hand
+apptainer exec ${VEP_SIF} \
+	-bind ${VEP_DIR}:/data \
+	-bind ${INPUT_DIR}:/input \
+	-bind ${OUTPUT_DIR}:/output \
+	-bind ${LOFTEE_DIR}:/plugins \
 	ensemblorg/ensembl-vep vep \
 	--input_file /input/${SAMPLE_ID} \
 	--output_file /output/${SAMPLE_ID}.vep \

@@ -1,6 +1,13 @@
 # genetics
 
-Sandbox for evaluation of genetic files. No guarantees on quality/bugs unless wrapped released as package later on.
+Sandbox for evaluation of genetic files. No guarantees on quality/bugs unless wrapped released as package later on. 
+
+Has essentially two major folders:
+
+- *local* = A workspace intended for use on a local computer, with different paths to data and more of a sandbox approach
+- *cluster* = A workspace intended for HPC environments (e.g. SLURM) with different data paths and ability for parallelization
+
+
 
 ## Abbreviations
 

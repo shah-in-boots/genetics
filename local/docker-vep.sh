@@ -19,17 +19,9 @@ docker run \
 	--output_file /output/${SAMPLE_ID}.vep \
 	--format vcf \
 	--cache \
-	--offline \
-	--assembly GRCh38 \
 	--force_overwrite \
 	--show_ref_allele \
 	--everything \
-	--dir_plugins /plugins \
-	--plugin LoF,loftee_path:/plugins,human_ancestor_fa:false \
-	--plugin CADD,/data/CADD_GRCh38_whole_genome_SNVs.tsv.gz \
-	--plugin REVEL,/data/revel_grch38.tsv.gz \
-	--plugin SpliceAI,snv=/data/spliceai_scores.raw.snv.hg38.vcf.gz,indel=/data/spliceai_scores.raw.indel.hg38.vcf.gz \
-	--plugin AlphaMissense,file=/data/AlphaMissense_hg38.tsv.gz \
-	--custom /data/gnomad.genomes.v4.0.sites.vcf.gz,gnomADg,vcf,exact,0,AF,AF_popmax 
+	--plugin LoF,loftee_path:/plugins,human_ancestor_fa:false 
 
 

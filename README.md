@@ -9,11 +9,41 @@ Has essentially two major folders:
 
 
 
+## Data
+
+### Batch Comparison
+
+The `data/` directory contains two batches of sequencing data processed with different variant callers:
+
+| Aspect | First Batch | Second Batch |
+|--------|-------------|--------------|
+| **Variant Caller** | GATK (HaplotypeCaller) | DRAGEN |
+| **Processing** | Traditional GATK pipeline | Illumina DRAGEN unified workflow |
+| **Reference Build** | GRCh38 | GRCh38dh (decoy-aware) |
+| **Output Format** | VCF with GATK-specific annotations | VCF with DRAGEN-specific annotations |
+| **Quality Filters** | GATK standard filters (QD, FS, MQ, SOR) | DRAGEN hard filters (DRAGENHardQUAL, LowDepth) |
+| **Hard Filtering Thresholds** | Various GATK recommendations | QUAL < 5.0, DP ≤ 1 |
+
+**Key Differences:**
+- DRAGEN uses a proprietary variant calling algorithm optimized for speed and accuracy
+- DRAGEN includes target-specific filtering (Twist Alliance Clinical Research Exome)
+- Quality scores and metrics are not directly comparable between callers
+- Variant counts and genotype concordance may differ
+- DRAGEN output includes both BAM (CRAM) and VCF with joint variant detection capability
+
+**File Organization:**
+- `data/uic_first_batch/vcf/` - GATK-processed VCF files
+- `data/uic_second_batch/vcf/` - DRAGEN-processed VCF files
+- `data/uic_second_batch/vep/` - VEP annotation outputs for second batch
+
 ## Abbreviations
 
 | Acronym | Expanded |
 | - | --- | 
 | vcf | variant call format |
+| GATK | Genome Analysis Toolkit |
+| DRAGEN | Dynamic Read Analysis for GENomics |
+| VEP | Variant Effect Predictor |
 
 ## Tools
 
@@ -31,6 +61,8 @@ https://vcftools.github.io/index.html
 
 ## Ensembl VEP
 
+The preferred way to do this is using VEP from a docker file. 
+
 This annotation software can be loaded through a Python Anaconda environment
 
 1. Load Anaconda
@@ -44,5 +76,5 @@ This annotation software can be loaded through a Python Anaconda environment
 [smohr@ip-172-25-17-35 ~]$ conda create -n ensembl
 [smohr@ip-172-25-17-35 ~]$ source activate  ensembl
 (ensembl) [smohr@ip-172-25-17-35 ~]$ conda install bioconda::ensembl-vep
-
 ```
+

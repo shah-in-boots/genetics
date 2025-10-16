@@ -19,4 +19,4 @@ if ! command -v apptainer >/dev/null 2>&1 && ! command -v singularity >/dev/null
 fi
 
 # Call the VEP script
-bash "${HOME}/projects/genetics/local/docker-vep.sh"
+bash "${HOME}/projects/genetics/local/test-apptainer-vep.sh"

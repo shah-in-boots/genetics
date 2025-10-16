@@ -11,12 +11,12 @@ VEP_SIF="$HOME/vep.sif"
 # This generally works for LoF, assuming that Loftee is in the correct place
 # Dockerized version works well as long as files are mounted appropriately
 # Need the apptainer to be mounted before hand
-apptainer exec ${VEP_SIF} \
-	-bind ${VEP_DIR}:/data \
-	-bind ${INPUT_DIR}:/input \
-	-bind ${OUTPUT_DIR}:/output \
-	-bind ${LOFTEE_DIR}:/plugins \
-	ensemblorg/ensembl-vep vep \
+apptainer exec \
+	--bind ${VEP_DIR}:/data \
+	--bind ${INPUT_DIR}:/input \
+	--bind ${OUTPUT_DIR}:/output \
+	--bind ${LOFTEE_DIR}:/plugins \
+	${VEP_SIF} vep \
 	--input_file /input/${SAMPLE_ID} \
 	--output_file /output/${SAMPLE_ID}.vep \
 	--format vcf \

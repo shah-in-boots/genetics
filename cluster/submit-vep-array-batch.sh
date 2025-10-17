@@ -10,7 +10,10 @@
 
 set -euo pipefail
 
-BATCH_DIR="uic_second_batch"
+# Batch directory is given from command line as first argument
+BATCH_DIR="$1"
+
+# Standard locations
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
 OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
 STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/status"

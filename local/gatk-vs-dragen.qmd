@@ -1,0 +1,26 @@
+---
+title: Comparing Differences in GATK and DRAGEN Pipelines
+subtitle: VCF Analysis
+---
+
+# GATK versus DRAGEN
+
+```{r}
+library(VariantAnnotation)
+
+# Compare two files
+gatk_vcf <- readVcf("data/uic_first_batch/vcf/Broad-AF-UIC-Cases-UIC0002.vcf")
+dragen_vcf <- readVcf("data/uic_second_batch/vcf/SM-OJRMH.hard-filtered.vcf")
+
+# Check number of variants
+nrow(gatk_vcf)
+nrow(dragen_vcf)
+
+# Check filter status
+table(fixed(gatk_vcf)$FILTER)
+table(fixed(dragen_vcf)$FILTER)
+
+# Review headers
+meta(header(gatk_vcf))
+meta(header(dragen_vcf))
+```

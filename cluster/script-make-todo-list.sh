@@ -1,8 +1,9 @@
 #!/bin/bash
 # Create list of VCF files that need processing
+# Run by `bash script-make-todo-list.sh <batch_directory>`
 
-# Remember to set the batch location
-BATCH_DIR="uic_second_batch"
+# Batch directory is given from command line as first argument
+BATCH_DIR="$1"
 
 # Standard locations
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"

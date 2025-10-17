@@ -10,9 +10,10 @@
 
 set -euo pipefail
 
-INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/vcf"
-OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/vep"
-STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/status"
+BATCH_DIR="uic_first_batch"
+INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
+OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
+STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/status"
 FILE_LIST="${STATUS_DIR}/todo.txt"
 
 # Load required modules

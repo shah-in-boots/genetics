@@ -5,10 +5,15 @@
 set -euo pipefail
 
 VCF_FILE="$1"
+
+# Remember to set the batch folder location
+BATCH_DIR="uic_first_batch"
+
+# Standard locations
 VEP_DIR="$HOME/.vep" 
-INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/vcf"
-OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/vep"
-STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/status"
+INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
+OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
+STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/status"
 LOFTEE_DIR="$HOME/.vep/loftee"
 VEP_SIF="$HOME/vep.sif"
 

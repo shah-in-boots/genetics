@@ -1,9 +1,13 @@
 #!/bin/bash
 # Create list of VCF files that need processing
 
-INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/vcf"
-OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/vep"
-STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/status"
+# Remember to set the batch location
+BATCH_DIR="uic_first_batch"
+
+# Standard locations
+INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
+OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
+STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/status"
 TODO_FILE="${STATUS_DIR}/todo.txt"
 
 mkdir -p "${STATUS_DIR}"
@@ -12,7 +16,7 @@ mkdir -p "${STATUS_DIR}"
 # Find VCF files that don't have a .done marker
 for vcf in "${INPUT_DIR}"/*.vcf; do
     filename=$(basename "${vcf}")
-    if [ ! -f "${OUTPUT_DIR}/${filename}.done" ]; then
+    if [ ! -f "${STATUS_DIR}/${filename}.done" ]; then
         echo "${filename}" >> "${TODO_FILE}"
     fi
 done

@@ -8,6 +8,9 @@
 #SBATCH --error=logs/vep_%A_%a.err
 #SBATCH --array=0-50
 
+# This script is submitted as part of the parent script
+# `main-vep-batch-workflow.sh` gives it the batch directory argument
+
 set -euo pipefail
 
 # Batch directory is given from command line as first argument
@@ -26,4 +29,4 @@ module load apptainer/1.2.5
 VCF_FILE=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "${FILE_LIST}")
 
 # Run VEP on this file
-bash "${HOME}/projects/genetics/cluster/run-vep-single-vcf.sh" "${VCF_FILE}"
+bash "${HOME}/projects/genetics/cluster/run-vep-single-vcf.sh" "${BATCH_DIR}" "${VCF_FILE}"

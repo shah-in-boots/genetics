@@ -19,6 +19,23 @@ INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_second_batch/vcf"
 OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_second_batch/vep"
 LOFTEE_DIR="$HOME/.vep/loftee"
 VEP_SIF="$HOME/vep.sif"
+STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/status"
+
+# Create status directory
+mkdir -p "${STATUS_DIR}"
+
+# Define status files
+SUCCESS_FILE="${STATUS_DIR}/${SAMPLE_ID}.success"
+FAILED_FILE="${STATUS_DIR}/${SAMPLE_ID}.failed"
+
+# Check if already successfully processed
+if [[ -f "${SUCCESS_FILE}" ]]; then
+    echo "Sample ${SAMPLE_ID} already successfully processed - skipping"
+    exit 0
+fi
+
+# Remove old failed marker if retrying
+rm -f "${FAILED_FILE}"
 
 # Validate paths exist
 for path in "${VEP_SIF}" "${VEP_DIR}" "${LOFTEE_DIR}" "${INPUT_DIR}/${SAMPLE_ID}"; do
@@ -49,4 +66,12 @@ apptainer exec \
 	--everything \
 	--plugin LoF,loftee_path:/plugins,human_ancestor_fa:false 
 
-echo "Completed VEP annotation for ${SAMPLE_ID}"
+# After successful VEP completion, mark as successful
+if [[ $? -eq 0 ]]; then
+    touch "${SUCCESS_FILE}"
+    echo "Completed VEP annotation for ${SAMPLE_ID}"
+else
+    touch "${FAILED_FILE}"
+    echo "Failed VEP annotation for ${SAMPLE_ID}" >&2
+    exit 1
+fi

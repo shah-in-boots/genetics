@@ -1,12 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=docker_vep
 #SBATCH --partition=batch
+#SBATCH --nodes=4
 #SBATCH --cpus-per-task=2
-#SBATCH --mem=8G
-#SBATCH --time=48:00:00
+#SBATCH --mem=2G
+#SBATCH --time=08:00:00
 #SBATCH --output=logs/docker_vep_%j.out
 #SBATCH --error=logs/docker_vep_%j.err
-#SBATCH --array=0-241%4
+#SBATCH --array=0-20%4
 
 # The number of array files total is above, determined by the number of VCF files in the folder of interest
 

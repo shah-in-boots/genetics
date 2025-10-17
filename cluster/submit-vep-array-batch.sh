@@ -6,7 +6,7 @@
 #SBATCH --time=04:00:00
 #SBATCH --output=logs/vep_%A_%a.out
 #SBATCH --error=logs/vep_%A_%a.err
-#SBATCH --array=1-50%10
+#SBATCH --array=1-5
 
 set -euo pipefail
 

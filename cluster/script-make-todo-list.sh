@@ -2,7 +2,7 @@
 # Create list of VCF files that need processing
 
 # Remember to set the batch location
-BATCH_DIR="uic_first_batch"
+BATCH_DIR="uic_second_batch"
 
 # Standard locations
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"

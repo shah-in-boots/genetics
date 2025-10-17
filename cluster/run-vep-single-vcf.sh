@@ -7,7 +7,7 @@ set -euo pipefail
 VCF_FILE="$1"
 
 # Remember to set the batch folder location
-BATCH_DIR="uic_first_batch"
+BATCH_DIR="uic_second_batch"
 
 # Standard locations
 VEP_DIR="$HOME/.vep" 

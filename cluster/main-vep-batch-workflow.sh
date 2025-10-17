@@ -10,7 +10,7 @@ set -euo pipefail
 BATCH_DIR="$1"
 
 # STEP ONE - make list of files that still need to be analyzed
-sh script-make-todo-list.sh "${BATCH_DIR}"
+sh script-make-vep-todo-list.sh "${BATCH_DIR}"
 
 # STEP TWO - run VEP in batch mode
 # the script itself contains the space for controlling the array count

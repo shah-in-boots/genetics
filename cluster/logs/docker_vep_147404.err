@@ -1,8 +1,0 @@
-Smartmatch is experimental at /plugins/de_novo_donor.pl line 175.
-Smartmatch is experimental at /plugins/de_novo_donor.pl line 214.
-Smartmatch is experimental at /plugins/splice_site_scan.pl line 191.
-Smartmatch is experimental at /plugins/splice_site_scan.pl line 194.
-Smartmatch is experimental at /plugins/splice_site_scan.pl line 238.
-Smartmatch is experimental at /plugins/splice_site_scan.pl line 241.
-WARNING: Plugin 'LoF' went wrong: /pluginsgerp_conservation_scores.homo_sapiens.GRCh38.bw does not exist at /plugins/gerp_dist.pl line 72.
-Task 20 exceeds number of VCFs (9); exiting

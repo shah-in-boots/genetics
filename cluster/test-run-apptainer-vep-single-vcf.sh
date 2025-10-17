@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Sample to test
-SAMPLE_ID="SM-OJRMH.hard-filtered.vcf"
+SAMPLE_ID="SM-OJRMH.hard-filtered"
 VEP_DIR="$HOME/.vep" 
 INPUT_DIR="$HOME/projects/genetics/data/uic_second_batch/vcf"
 OUTPUT_DIR="$HOME/projects/genetics/data/uic_second_batch/vep"
@@ -17,7 +17,7 @@ apptainer exec \
 	--bind ${OUTPUT_DIR}:/output \
 	--bind ${LOFTEE_DIR}:/plugins \
 	${VEP_SIF} vep \
-	--input_file /input/${SAMPLE_ID} \
+	--input_file /input/${SAMPLE_ID}.vcf \
 	--output_file /output/${SAMPLE_ID}.vep \
 	--format vcf \
 	--cache \

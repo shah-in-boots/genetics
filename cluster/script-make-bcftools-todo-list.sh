@@ -1,10 +1,14 @@
 #!/bin/bash
-# Build todo list for GATK hard-filtering via BCFtools
-# Usage: bash script-make-bcftools-todo-list.sh [batch_dir]
+# Build a todo list of VCF files that still need hard filtering.
+# Usage: bash script-make-bcftools-todo-list.sh <batch_dir>
 
 set -euo pipefail
 
-# Batch directory of VCF files that need filtering
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $(basename "$0") <batch_dir>" >&2
+    exit 1
+fi
+
 BATCH_DIR="$1"
 
 BASE_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}"
@@ -15,17 +19,16 @@ TODO_FILE="${STATUS_DIR}/hard-filter-todo.txt"
 mkdir -p "${STATUS_DIR}"
 > "${TODO_FILE}"
 
-shopt -s nullglob
-mapfile -t VCF_FILES < <(find "${INPUT_DIR}" -maxdepth 1 -type f \( -name '*.vcf' -o -name '*.vcf.gz' \) | sort)
-shopt -u nullglob
-
 TOTAL=0
 TODO_COUNT=0
-DONE_COUNT=0
 
-for vcf_path in "${VCF_FILES[@]}"; do
+for pattern in "${INPUT_DIR}"/*.vcf "${INPUT_DIR}"/*.vcf.gz; do
+    if [[ ! -e "${pattern}" ]]; then
+        continue
+    fi
+
     ((TOTAL++))
-    filename=$(basename "${vcf_path}")
+    filename=$(basename "${pattern}")
 
     case "${filename}" in
         *.vcf.gz) sample="${filename%.vcf.gz}" ;;
@@ -36,13 +39,14 @@ for vcf_path in "${VCF_FILES[@]}"; do
     done_marker="${STATUS_DIR}/${sample}.hard-filter.done"
 
     if [[ -f "${done_marker}" ]]; then
-        ((DONE_COUNT++))
         continue
     fi
 
     echo "${filename}" >> "${TODO_FILE}"
     ((TODO_COUNT++))
 done
+
+DONE_COUNT=$((TOTAL - TODO_COUNT))
 
 echo "Batch directory   : ${BATCH_DIR}"
 echo "Input directory   : ${INPUT_DIR}"

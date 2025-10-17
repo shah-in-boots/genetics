@@ -6,7 +6,7 @@
 #SBATCH --time=04:00:00
 #SBATCH --output=logs/vep_%A_%a.out
 #SBATCH --error=logs/vep_%A_%a.err
-#SBATCH --array=0-50
+#SBATCH --array=0-99
 
 # This script is submitted as part of the parent script
 # `main-vep-batch-workflow.sh` gives it the batch directory argument

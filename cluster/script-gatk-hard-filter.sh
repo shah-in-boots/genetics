@@ -58,7 +58,7 @@ OUTPUT_PATH="${OUTPUT_DIR}/${SAMPLE_NAME}.hard-filtered.vcf"
 #      - QUAL > 5 ensures confident variant calls.
 #      - INFO/DP > 1 requires at least 2 reads supporting the call.
 "${BCFTOOLS_BIN}" view "${INPUT_PATH}" \
-    | "${BCFTOOLS_BIN}" filter -i 'QUAL>5 && INFO/DP>1' \
+    | "${BCFTOOLS_BIN}" filter -i 'QUAL>5 && INFO/DP>1 && FILTER!="PASS" && FILTER!="."' \
     > "${OUTPUT_PATH}"
 
 echo "Filtered VCF written to ${OUTPUT_PATH}"

@@ -28,4 +28,11 @@ dat <- card::query_genes_by_phenotype(
 
 # Write out to file
 # Use tab file to maintain rank and file
-write_tsv(dat, paste0("gene_panel_", gsub(" ", "_", phenotype), ".tsv"))
+# Make sure path is at home directory in genetics folder
+gene_file_path <- fs::path_home(
+  "projects",
+  "genetics",
+  "data",
+  paste0("gene_panel_", gsub(" ", "_", phenotype), ".tsv")
+)
+write_tsv(dat, gene_file_path)

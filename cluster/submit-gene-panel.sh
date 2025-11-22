@@ -8,6 +8,8 @@
 #SBATCH --output=logs/gene_panel_%A_%a.out
 #SBATCH --error=logs/gene_panel_%A_%a.err
 
+module load R/4.4.1-gfbf-2023b
+
 # Variables
 PHENOTYPE="$1"
 

@@ -12,7 +12,7 @@
 # SETUP ====
 
 # This script is submitted as part of the parent script
-# Parent script is main-make-variant-table.sh
+# Parent script is `main-variant-table.sh`
 set -euo pipefail
 
 # Load required modules
@@ -24,25 +24,11 @@ module load apptainer/1.2.5
 # Gene list is a comma-separated list of genes to filter for
 BATCH_DIR="$1"
 GENE_LIST="$2"
+TODO_FILES="$3"
 
 # Standard locations for the directory of interest
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
 OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep_filtered"
-
-# FILES ====
-
-# Create list of files to process
-TODO_FILES=() # list of files to process
-INPUT_FILES=("$INPUT_DIR"/*.vep)
-
-for f in "${INPUT_FILES[@]}"; do
-    basename=$(basename "$f")
-    # Check if corresponding output file doesn't exist
-    # FYI double brackets so variables don't get split
-    if [[ ! -f "$OUTPUT_DIR/$basename" ]]; then
-        TODO_FILES+=("$f")
-    fi
-done
 
 # BATCHING ====
 
@@ -50,4 +36,4 @@ done
 # This is a batched file
 VEP_FILE="${TODO_FILES[$SLURM_ARRAY_TASK_ID]}"
 
-bash "${HOME}/projects/genetics/cluster/run-filter-vep-by-gene.sh" "${BATCH_DIR}" "${GENE_LIST}" "${VEP_FILE}"
+bash "run-filter-vep-by-gene.sh" "${BATCH_DIR}" "${GENE_LIST}" "${VEP_FILE}"

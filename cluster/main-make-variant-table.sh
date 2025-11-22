@@ -6,6 +6,7 @@
 # Contains which genes to filter for from the VCF annotations
 # Under column "gene_symbol"
 # The file output is "gene_panel_${PHENOTYPE}.tsv" (with spaces changed to underscore)
+# Placed in the 'data' folder of the 'genetics' repository
 # Only need to do this once per phenotype of interest
 PHENOTYPE="atrial fibrillation"
 PANEL_TSV="$HOME/projects/genetics/data/gene_panel_${PHENOTYPE// /_}.tsv"
@@ -14,7 +15,7 @@ if [[ -f "$PANEL_TSV" ]]; then
     echo "Gene panel already exists: $PANEL_TSV"
 else
     echo "Creating gene panel for: $PHENOTYPE"
-    bash $HOME/projects/genetics/cluster/submit-gene-panel.sh "${PHENOTYPE}"
+    bash submit-gene-panel.sh "${PHENOTYPE}"
 fi
 
 # STEP 2
@@ -31,4 +32,4 @@ GENE_LIST=$(awk 'NR > 1 { print $1 }' "$PANEL_TSV" | paste -sd ',' -)
 # 1 = batch directory
 # 2 = Gene list variable (bash array)
 
-sbatch $HOME/projects/genetics/cluster/submit-filter-vep-array.sh "${BATCH_DIRECTORY}" "${GENE_LIST}"
+sbatch submit-filter-vep-array.sh "${BATCH_DIRECTORY}" "${GENE_LIST}"

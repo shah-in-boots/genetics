@@ -36,14 +36,17 @@ OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep_filtered
 
 # Create list of files to process
 # This list is an array that will be accessed by the Array No.
+#TODO need to check to see if the basename functionality here is working correctly (just want to compare patient IDs, not full file names)
 TODO_FILES=() # list of files to process
 INPUT_FILES=("$INPUT_DIR"/*.vep)
 
 for f in "${INPUT_FILES[@]}"; do
     basename=$(basename "$f")
-    # Check if corresponding output file doesn't exist
-    # FYI double brackets so variables don't get split
-    if [[ ! -f "$OUTPUT_DIR/$basename" ]]; then
+    # Extract patient ID (everything before first ".")
+    patient_id="${basename%%.*}"
+    # Check if any output file with this patient ID exists
+    # Essentially if no output file exists, add it to the todo list
+    if ! ls "$OUTPUT_DIR/${patient_id}."* > /dev/null 2>&1; then
         TODO_FILES+=("$basename")
     fi
 done

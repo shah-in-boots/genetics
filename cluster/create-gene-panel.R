@@ -17,15 +17,13 @@ print(paste("Creating gene panel for phenotype:", phenotype))
 # Setup library first
 # Add your gene panel creation logic below
 # For atrial fibrillation, about 11k seems correct
+library(tidyverse)
 library(card)
-library(dplyr)
-library(fs)
-library(readr)
 
 dat <- card::query_genes_by_phenotype(
   phenotype,
   database = "clinvar",
-  max_results = 1000
+  max_results = 11000
 )
 
 # Write out to file

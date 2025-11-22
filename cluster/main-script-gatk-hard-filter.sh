@@ -8,6 +8,8 @@
 #SBATCH --error=logs/filter-%J.err
 #SBATCH --output=logs/filter-%J.out
 
+# This script uses BCFtools to help align GATK to DRAGEN filtering
+
 module load BCFtools/1.17-GCC-12.2.0
 
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/uic_first_batch/raw"

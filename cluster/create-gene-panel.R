@@ -11,19 +11,21 @@ if (length(args) == 0) {
 # Get the phenotype description argument
 phenotype <- args[1]
 
-# Your code here
+# Output is the phenotype being filtered for
 print(paste("Creating gene panel for phenotype:", phenotype))
 
-# Add your gene panel creation logic below
 # Setup library first
+# Add your gene panel creation logic below
+# For atrial fibrillation, about 11k seems correct
 library(tidyverse)
 library(card)
 
 dat <- card::query_genes_by_phenotype(
   phenotype,
   database = "clinvar",
-  max_results = 500
+  max_results = 1000
 )
 
-# Write out to CSV
-write_csv(dat, paste0("gene_panel_", gsub(" ", "_", phenotype), ".csv"))
+# Write out to file
+# Use tab file to maintain rank and file
+write_tsv(dat, paste0("gene_panel_", gsub(" ", "_", phenotype), ".tsv"))

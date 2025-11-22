@@ -44,7 +44,7 @@ for f in "${INPUT_FILES[@]}"; do
     # Check if corresponding output file doesn't exist
     # FYI double brackets so variables don't get split
     if [[ ! -f "$OUTPUT_DIR/$basename" ]]; then
-        TODO_FILES+=("$f")
+        TODO_FILES+=("$basename")
     fi
 done
 

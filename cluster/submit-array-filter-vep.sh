@@ -24,7 +24,7 @@ module load apptainer/1.2.5
 # Gene list is a comma-separated list of genes to filter for
 BATCH_DIR="$1"
 GENE_LIST="$2"
-TODO_FILES="$3"
+TODO_FILES=("${@:3}")
 
 # Standard locations for the directory of interest
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
@@ -33,7 +33,7 @@ OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep_filtered
 # BATCHING ====
 
 # Get the VEP filename for this array task
-# This is a batched file
+# This is just a file name, and doesn't include the path
 VEP_FILE="${TODO_FILES[$SLURM_ARRAY_TASK_ID]}"
 
 bash "run-filter-vep-by-gene.sh" "${BATCH_DIR}" "${GENE_LIST}" "${VEP_FILE}"

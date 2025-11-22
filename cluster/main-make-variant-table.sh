@@ -8,7 +8,7 @@
 # The file output is "gene_panel_${PHENOTYPE}.tsv" (with spaces changed to underscore)
 # Only need to do this once per phenotype of interest
 PHENOTYPE="atrial fibrillation"
-bash submit-gene-panel.sh "${PHENOTYPE}"
+bash $HOME/projects/genetics/cluster/submit-gene-panel.sh "${PHENOTYPE}"
 
 # STEP 2
 # Second part is to filter VEP files for the genes in the gene panel
@@ -25,4 +25,4 @@ GENE_LIST=$(awk 'NR > 1 { print $1 }' "$PANEL_TSV" | paste -sd ',' -)
 # 1 = batch directory
 # 2 = Gene list variable (bash array)
 
-sbatch submit-filter-vep-arrah.sh "${BATCH_DIRECTORY}"
+sbatch $HOME/projects/genetics/cluster/submit-filter-vep-array.sh "${BATCH_DIRECTORY}" "${GENE_LIST}"

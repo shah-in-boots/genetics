@@ -13,4 +13,4 @@ PHENOTYPE="$1"
 
 # R script to create a gene panel based on the provided phenotype
 # Will write out to the 'data' folder in the 'genetics' repository
-Rscript create-gene-panel.R "${PHENOTYPE}"
+Rscript $HOME/projects/genetics/cluster/create-gene-panel.R "${PHENOTYPE}"

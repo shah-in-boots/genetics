@@ -7,7 +7,7 @@
 #SBATCH --time=04:00:00
 #SBATCH --output=logs/filter_vep_%A_%a.out
 #SBATCH --error=logs/filter_vep_%A_%a.err
-#SBATCH --array=0-10
+#SBATCH --array=0-99
 
 # SETUP ====
 

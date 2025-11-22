@@ -15,7 +15,7 @@ set -euo pipefail
 # Variables of interest
 BATCH_DIR="$1"
 GENE_LIST="$2"
-VEP_FILE="$3"
+VEP_FILE=("${@:3}")
 
 # Standard locations of important paths
 VEP_DIR="$HOME/.vep" 

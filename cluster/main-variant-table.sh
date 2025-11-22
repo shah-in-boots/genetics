@@ -30,7 +30,7 @@ GENE_LIST=$(awk 'NR > 1 { print $1 }' "$PANEL_TSV" | paste -sd ',' -)
 # Standard I/O directories
 # The local directory folders
 # THe individual scripts places this in the DARBAR/data/genetics path 
-BATCH_DIR="uic_first_batch"
+BATCH_DIR="uic_second_batch"
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
 OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep_filtered"
 

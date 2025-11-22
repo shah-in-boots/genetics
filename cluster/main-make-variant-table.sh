@@ -15,7 +15,7 @@ if [[ -f "$PANEL_TSV" ]]; then
     echo "Gene panel already exists: $PANEL_TSV"
 else
     echo "Creating gene panel for: $PHENOTYPE"
-    bash submit-gene-panel.sh "${PHENOTYPE}"
+    sbatch submit-gene-panel.sh "${PHENOTYPE}"
 fi
 
 # STEP 2

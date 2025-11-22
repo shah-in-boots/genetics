@@ -8,13 +8,15 @@
 #SBATCH --output=logs/gene_panel_%A_%a.out
 #SBATCH --error=logs/gene_panel_%A_%a.err
 
+# Make sure path for libraries is present
+export R_LIBS_USER="~/tools/R/library"
+
 # Load R module
-#module load R/4.4.1-gfbf-2023b
-module load R
+module load R/4.4.1-gfbf-2023b
 
 # Variables
 PHENOTYPE="$1"
 
 # R script to create a gene panel based on the provided phenotype
 # Will write out to the 'data' folder in the 'genetics' repository
-Rscript $HOME/projects/genetics/cluster/create-gene-panel.R "${PHENOTYPE}"
+Rscript create-gene-panel.R "${PHENOTYPE}"

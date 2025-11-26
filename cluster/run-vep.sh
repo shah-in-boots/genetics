@@ -31,8 +31,8 @@ apptainer exec \
     --cache \
     --force_overwrite \
     --show_ref_allele \
-    #--everything \
-    --plugin LoF,loftee_path:/plugins,human_ancestor_fa:false
+    --plugin LoF,loftee_path:/plugins,human_ancestor_fa:false \
+		--everything
 
 # Mark as complete
 touch "${STATUS_DIR}/${VCF_FILE}.done"

@@ -2,12 +2,14 @@
 #SBATCH --job-name=vep_table
 #SBATCH --partition=batch
 #SBATCH --cpus-per-task=4
+#SBATCH --nodes=1
 #SBATCH --mem=32GB
 #SBATCH --time=04:00:00
 #SBATCH --output=logs/vep_table_%A_%a.out
 #SBATCH --error=logs/vep_table_%A_%a.err
 
 # Script for submission 
+# This has
 # Used like this`sbatch submit-convert-vep-to-table.sh "${BATCH_DIR}"``
 
 # Take arguments from command line
@@ -20,4 +22,7 @@ export R_LIBS_USER="~/tools/R/library"
 module load R/4.4.1-gfbf-2023b
 
 # Run script
-Rscript convert-vep-to-table.R "${BATCH_DIR}"
+# Takes following arguments:
+# 1 = batch directory
+# 2 = SLURM cpus per task
+Rscript convert-vep-to-table.R "${BATCH_DIR}" "${SLURM_CPUS_PER_TASK}"

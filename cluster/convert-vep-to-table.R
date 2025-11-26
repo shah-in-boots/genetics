@@ -2,25 +2,30 @@
 
 # This function loops through all the VEP files and combines them into a table
 # Preferentially the VEP files have been filtered to be smaller in size
+# Takes two arguments: 1) batch directory, 2) number of available CPUs
 
 # Setup & libraries
 library(tidyverse)
 library(card)
 library(fs)
+library(future)
+library(future.apply)
 
 # Get command line arguments
 args <- commandArgs(trailingOnly = TRUE)
+batch_dir <- args[1]
+number_cpus <- as.integer(args[2])
+
 
 # Check if argument was provided
 if (length(args) == 0) {
   stop("Usage: Rscript convert-vep-to-table.R <BATCH_DIR>")
 }
 
-# Batch directory is the argument
+# Batch directory 
 # Used to identify correct working folder
-batch_dir <- args[1]
 working_folder <- fs::path(
-  "~/cardio_darbar_chi_link/data/genetics",
+  fs::path_expand("~/cardio_darbar_chi_link/data/genetics"),
   batch_dir,
   "vep_filtered"
 )
@@ -30,8 +35,10 @@ vep_files <- fs::dir_ls(working_folder, glob = "*.vep.filtered")
 
 # For each file, read in the VEP file and convert to table
 # Each table should have the patient ID in a column to allow for analysis later
+# Do this across multiple cores using future 
+plan(multisession, workers = number_cpus)
 
-vep_table_list <- lapply(vep_files, function(file) {
+vep_table_list <- future_lapply(vep_files, function(file) {
   message("Processing file: ", file)
   # Take the file name up until the first dot as the patient ID
   sample_id <- stringr::str_extract(fs::path_file(file), "^[^.]+") 

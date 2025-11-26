@@ -32,6 +32,7 @@ vep_files <- fs::dir_ls(working_folder, glob = "*.vep.filtered")
 # Each table should have the patient ID in a column to allow for analysis later
 
 vep_table_list <- lapply(vep_files, function(file) {
+  message("Processing file: ", file)
   # Take the file name up until the first dot as the patient ID
   sample_id <- stringr::str_extract(fs::path_file(file), "^[^.]+") 
 
@@ -43,6 +44,7 @@ vep_table_list <- lapply(vep_files, function(file) {
     # Move to front of table
     dplyr::relocate(sample_id)
 
+  message("Done with sample: ", sample_id)
 })
 
 # Convert the table list into a single table

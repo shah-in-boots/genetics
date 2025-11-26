@@ -16,7 +16,6 @@ args <- commandArgs(trailingOnly = TRUE)
 batch_dir <- args[1]
 number_cpus <- as.integer(args[2])
 
-
 # Check if argument was provided
 if (length(args) == 0) {
   stop("Usage: Rscript convert-vep-to-table.R <BATCH_DIR>")
@@ -30,13 +29,17 @@ working_folder <- fs::path(
   "vep_filtered"
 )
 
+message("Working folder: ", working_folder)
+
 # List out files in working folder
 vep_files <- fs::dir_ls(working_folder, glob = "*.vep.filtered")
 
 # For each file, read in the VEP file and convert to table
 # Each table should have the patient ID in a column to allow for analysis later
 # Do this across multiple cores using future 
-plan(multisession, workers = number_cpus)
+future::plan(multisession, workers = number_cpus)
+
+message("Using multiple workers: ", number_cpus)
 
 vep_table_list <- future_lapply(vep_files, function(file) {
   message("Processing file: ", file)
@@ -59,4 +62,6 @@ vep_table <- dplyr::bind_rows(vep_table_list)
 
 # Write out the combined table as a CSV file
 output_file <- fs::path(working_folder, "vep_annotations.csv")
-readr::write_csv(output_file)
+message("Will write out table to: ", output_file)
+readr::write_csv(vep_table, output_file)
+

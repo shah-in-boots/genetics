@@ -18,7 +18,7 @@ BATCH_DIR="$1"
 
 # Standard locations
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
-OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
+OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/lof"
 STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/status"
 FILE_LIST="${STATUS_DIR}/todo.txt"
 
@@ -29,4 +29,4 @@ module load apptainer/1.2.5
 VCF_FILE=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "${FILE_LIST}")
 
 # Run VEP on this file
-bash "${HOME}/projects/genetics/cluster/run-vep-single-vcf.sh" "${BATCH_DIR}" "${VCF_FILE}"
+bash "${HOME}/projects/genetics/cluster/run-vep.sh" "${BATCH_DIR}" "${VCF_FILE}"

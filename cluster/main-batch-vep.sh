@@ -14,4 +14,4 @@ sh script-make-vep-todo-list.sh "${BATCH_DIR}"
 
 # STEP TWO - run VEP in batch mode
 # the script itself contains the space for controlling the array count
-sbatch submit-variant-annotation.sh "${BATCH_DIR}"
+sbatch submit-array-run-vep.sh "${BATCH_DIR}"

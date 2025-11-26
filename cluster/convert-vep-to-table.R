@@ -58,10 +58,13 @@ vep_table_list <- future_lapply(vep_files, function(file) {
 })
 
 # Convert the table list into a single table
+# Save a copy in same working folder to make sure the file wrote out
 vep_table <- dplyr::bind_rows(vep_table_list)
+saveRDS(vep_table, fs::path(working_folder, "vep_annotations.rds"))
+message("Saved RDS file to working folder: ", fs::path(working_folder, "vep_annotations.rds"))
+
 
 # Write out the combined table as a CSV file
 output_file <- fs::path(working_folder, "vep_annotations.csv")
-message("Will write out table to: ", output_file)
 readr::write_csv(vep_table, output_file)
-
+message("Write out table to: ", output_file)

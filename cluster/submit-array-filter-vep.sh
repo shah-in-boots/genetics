@@ -9,11 +9,14 @@
 #SBATCH --error=logs/filter_vep_%A_%a.err
 #SBATCH --array=0-99
 
-# SETUP ====
+set -euo pipefail
 
 # This script is submitted as part of the parent script
 # Parent script is `main-variant-table.sh`
-set -euo pipefail
+# Needs to be run multiple times to cover all files
+
+# SETUP ====
+
 
 # Load required modules
 module load apptainer/1.2.5

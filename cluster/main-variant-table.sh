@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # STEP 1
 # First part of the script is to call the R script that gets a gene panel
@@ -15,7 +15,7 @@ if [[ -f "$PANEL_TSV" ]]; then
     echo "Gene panel already exists: $PANEL_TSV"
 else
     echo "Creating gene panel for: $PHENOTYPE"
-    sbatch submit-gene-panel.sh "${PHENOTYPE}"
+    sbatch submit-create-gene-panel.sh "${PHENOTYPE}"
 fi
 
 # STEP 2
@@ -36,7 +36,6 @@ OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep_filtered
 
 # Create list of files to process
 # This list is an array that will be accessed by the Array No.
-#TODO need to check to see if the basename functionality here is working correctly (just want to compare patient IDs, not full file names)
 TODO_FILES=() # list of files to process
 INPUT_FILES=("$INPUT_DIR"/*.vep)
 
@@ -52,9 +51,20 @@ for f in "${INPUT_FILES[@]}"; do
 done
 
 # SLURM submission
+# This needs to be run several times because of the space limit
+# Array limited to about 100 runs at a time
+# After files have been filtered will not need to re-run jobs from this
+#
 # Needs to know the following arguments:
 # 1 = batch directory
 # 2 = Gene list variable (bash array)
 # 3 = VEP file array (bash array)
 
 sbatch submit-array-filter-vep.sh "${BATCH_DIR}" "${GENE_LIST}" "${TODO_FILES[@]}"
+
+# STEP 3
+# Third part is to combine all filtered VEP files into a CSV file
+# This can later be merged with other folders for a study if needed
+# Save this data in the './data' folder of the `genetics` repository
+# This will be done with an R script that is `sbatch` submitted
+sbatch submit-convert-vep-to-table.sh "${BATCH_DIR}"

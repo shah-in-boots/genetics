@@ -55,6 +55,9 @@ vep_table_list <- future_lapply(vep_files, function(file) {
     dplyr::relocate(sample_id)
 
   message("Done with sample: ", sample_id)
+
+  # Output
+  vep_data
 })
 
 # Convert the table list into a single table

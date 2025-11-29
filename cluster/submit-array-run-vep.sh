@@ -9,24 +9,24 @@
 #SBATCH --array=0-99
 
 # This script is submitted as part of the parent script
-# `main-vep-batch-workflow.sh` gives it the batch directory argument
+# `main-batch-vep.sh` gives it the batch directory argument
 
 set -euo pipefail
-
-# Batch directory is given from command line as first argument
-BATCH_DIR="$1"
-
-# Standard locations
-INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
-OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/lof"
-STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/status"
-FILE_LIST="${STATUS_DIR}/todo.txt"
 
 # Load required modules
 module load apptainer/1.2.5
 
+# Batch directory is given from command line as first argument
+# Second argument is the list of todo files as an array
+BATCH_DIR="$1"
+TODO_FILES=("${@:2}")
+
+# Standard locations
+INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
+OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
+
 # Get the VCF filename for this array task
-VCF_FILE=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "${FILE_LIST}")
+VCF_FILE="${TODO_FILES[$SLURM_ARRAY_TASK_ID]}"
 
 # Run VEP on this file
-bash "${HOME}/projects/genetics/cluster/run-vep.sh" "${BATCH_DIR}" "${VCF_FILE}"
+bash run-vep.sh "${BATCH_DIR}" "${VCF_FILE}"

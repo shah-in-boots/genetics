@@ -11,13 +11,12 @@ VCF_FILE="$2"
 # Standard locations
 VEP_DIR="$HOME/.vep" 
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
-OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/lof"
-STATUS_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/status"
+OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
 LOFTEE_DIR="$HOME/.vep/loftee"
 VEP_SIF="$HOME/vep.sif"
 
+# Make sure output exists
 mkdir -p "${OUTPUT_DIR}"
-mkdir -p "${STATUS_DIR}"
 
 apptainer exec \
     --bind ${VEP_DIR}:/data \
@@ -26,13 +25,12 @@ apptainer exec \
     --bind ${LOFTEE_DIR}:/plugins \
     ${VEP_SIF} vep \
     --input_file /input/${VCF_FILE} \
-    --output_file /output/${VCF_FILE}.vep \
     --format vcf \
+    --output_file /output/${VCF_FILE}.vep \
+    --vcf \
     --cache \
     --force_overwrite \
     --show_ref_allele \
     --plugin LoF,loftee_path:/plugins,human_ancestor_fa:false \
 		--everything
 
-# Mark as complete
-touch "${STATUS_DIR}/${VCF_FILE}.done"

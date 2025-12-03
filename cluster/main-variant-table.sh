@@ -16,6 +16,33 @@ if [[ -f "$PANEL_TSV" ]]; then
 else
     echo "Creating gene panel for: $PHENOTYPE"
     sbatch submit-create-gene-panel.sh "${PHENOTYPE}"
+
+    # Wait for gene panel file to be created
+    echo "Waiting for gene panel creation to complete..."
+    MAX_WAIT=1800  # 1/2 hours (adjust based on typical job time)
+    WAIT_INTERVAL=30  # Check every 30 seconds
+    ELAPSED=0
+
+    while [[ ! -f "$PANEL_TSV" ]] && [[ $ELAPSED -lt $MAX_WAIT ]]; do
+        sleep $WAIT_INTERVAL
+        ELAPSED=$((ELAPSED + WAIT_INTERVAL))
+        echo "  Still waiting... (${ELAPSED}s elapsed)"
+    done
+
+    # Check if file was created
+    if [[ ! -f "$PANEL_TSV" ]]; then
+        echo "ERROR: Gene panel file not created after ${MAX_WAIT}s"
+        echo "Check SLURM logs in logs/gene_panel_*.out"
+        exit 1
+    fi
+
+    # Validate file is non-empty and has expected format
+    if [[ ! -s "$PANEL_TSV" ]]; then
+        echo "ERROR: Gene panel file is empty: $PANEL_TSV"
+        exit 1
+    fi
+
+    echo "Gene panel created successfully: $PANEL_TSV (${LINES} lines)"
 fi
 
 # STEP 2

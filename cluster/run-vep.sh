@@ -12,7 +12,7 @@ VCF_FILE="$2"
 VEP_DIR="$HOME/.vep" 
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
 OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
-LOFTEE_DIR="$HOME/.vep/loftee"
+LOFTEE_DIR="$HOME/.vep/loftee/"
 VEP_SIF="$HOME/vep.sif"
 
 # Make sure output exists
@@ -31,6 +31,6 @@ apptainer exec \
     --cache \
     --force_overwrite \
     --show_ref_allele \
-    --plugin LoF,loftee_path:/plugins,human_ancestor_fa:false \
-		--everything
+		--everything \
+    --plugin LoF,loftee_path:/plugins,human_ancestor_fa:false,gerp_bigwig:/plugins/gerp_conservation_scores.homo_sapiens.GRCh38.bw 
 

@@ -10,7 +10,7 @@ set -euo pipefail
 # VARIABLES ----
 
 # First set up all the relevant paths/variables
-BATCH_DIR="uic_first_batch"
+BATCH_DIR="uic_second_batch"
 
 # Standard I/O directories
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
@@ -38,10 +38,3 @@ done
 # SLURM submission script
 # SLURM needs to know the directory of interest and which files need to be run
 sbatch submit-array-run-vep.sh "${BATCH_DIR}" "${TODO_FILES[@]}"
-
-# STEP ONE - make list of files that still need to be analyzed
-sh script-make-vep-todo-list.sh "${BATCH_DIR}"
-
-# STEP TWO - run VEP in batch mode
-# the script itself contains the space for controlling the array count
-sbatch submit-array-run-vep.sh "${BATCH_DIR}"

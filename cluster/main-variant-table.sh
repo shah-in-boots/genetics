@@ -94,4 +94,9 @@ sbatch submit-array-filter-vep.sh "${BATCH_DIR}" "${GENE_LIST}" "${TODO_FILES[@]
 # This can later be merged with other folders for a study if needed
 # Save this data in the './data' folder of the `genetics` repository
 # This will be done with an R script that is `sbatch` submitted
+#
 sbatch submit-convert-vep-to-table.sh "${BATCH_DIR}"
+
+# TODO
+# This script (STEP 3) is not running for some reason - I think its because the above script is using up too many array spots
+# We should loop through the previous before moving to this step

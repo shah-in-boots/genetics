@@ -5,8 +5,8 @@
 #SBATCH --nodes=1
 #SBATCH --mem=32GB
 #SBATCH --time=04:00:00
-#SBATCH --output=logs/vep_table_%A_%a.out
-#SBATCH --error=logs/vep_table_%A_%a.err
+#SBATCH --output=logs/vep_table_%J.out
+#SBATCH --error=logs/vep_table_%J.err
 
 # Script for submission 
 # This has

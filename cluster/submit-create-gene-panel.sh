@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=16G
 #SBATCH --time=04:00:00
-#SBATCH --output=logs/gene_panel_%A_%a.out
-#SBATCH --error=logs/gene_panel_%A_%a.err
+#SBATCH --output=logs/gene_panel_%J.out
+#SBATCH --error=logs/gene_panel_%J.err
 
 # Make sure path for libraries is present
 export R_LIBS_USER="~/tools/R/library"

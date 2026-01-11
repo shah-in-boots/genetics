@@ -90,11 +90,10 @@ done
 sbatch submit-array-filter-vep.sh "${BATCH_DIR}" "${GENE_LIST}" "${TODO_FILES[@]}"
 
 # STEP 3
-# Third part is to combine all filtered VEP files into a CSV file
-# This can later be merged with other folders for a study if needed
-# Save this data in the './data' folder of the `genetics` repository
-# This will be done with an R script that is `sbatch` submitted
-#
+# Third part is to combine all filtered VEP files into a CSV file.  This can
+# later be merged with other folders for a study if needed.  This will be done
+# with an R script that is `sbatch` submitted. It's saved into the working
+# folder that the filtered variants from above were created in. 
 sbatch submit-convert-vep-to-table.sh "${BATCH_DIR}"
 
 # TODO

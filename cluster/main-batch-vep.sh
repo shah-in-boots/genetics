@@ -10,7 +10,7 @@ set -euo pipefail
 # VARIABLES ----
 
 # First set up all the relevant paths/variables
-BATCH_DIR="uic_second_batch"
+BATCH_DIR="uic_first_batch"
 
 # Standard I/O directories
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"

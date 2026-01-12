@@ -30,6 +30,7 @@ LOFTEE_DIR="$HOME/.vep/loftee"
 ASSEMBLY="GRCh38"
 
 # File directories
+BATCH_DIR=$1
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
 OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
 
@@ -75,7 +76,7 @@ apptainer exec \
   --species homo_sapiens --assembly $ASSEMBLY \
 	--offline --cache \
 	--dir_cache /opt/vep/.vep \
-  --fork 2 \
+  --fork 4 \
 	--no_stats \
 	--everything \
 	--show_ref_allele \

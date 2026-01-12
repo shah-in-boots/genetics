@@ -17,7 +17,6 @@ set -euo pipefail
 
 # SETUP ====
 
-
 # Load required modules
 module load apptainer/1.2.5
 

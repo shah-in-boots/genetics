@@ -7,16 +7,16 @@
 # This line sets the script to exit immediately if a command exits with a non-zero status, treat unset variables as an error, and fail on any command in a pipeline that fails.
 set -euo pipefail
 
-# VARIABLES ----
+# VARIABLES --------------------------------------------------------------------
 
 # First set up all the relevant paths/variables
-BATCH_DIR="uic_first_batch"
+BATCH_DIR="uic_second_batch"
 
 # Standard I/O directories
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vcf"
 OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
 
-#  STEP ONE ----
+#  STEP ONE --------------------------------------------------------------------
 
 # Create list of files to process
 # This list is an array that will be accessed by the Array No.
@@ -34,7 +34,8 @@ for f in "${INPUT_FILES[@]}"; do
     fi
 done
 
-# STEP TWO ----
+# STEP TWO ---------------------------------------------------------------------
+
 # SLURM submission script
 # SLURM needs to know the directory of interest and which files need to be run
 sbatch submit-array-run-vep.sh "${BATCH_DIR}" "${TODO_FILES[@]}"

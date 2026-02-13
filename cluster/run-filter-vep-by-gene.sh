@@ -33,5 +33,4 @@ apptainer exec \
     --input_file /input/${VEP_FILE} \
     --output_file /output/${VEP_FILE}.filtered \
     --filter "SYMBOL in {${GENE_LIST}}" \
-    --force_overwrite \
-		--only_matched
+    --force_overwrite 

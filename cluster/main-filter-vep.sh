@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# STEP 1
-# First part of the script is to call the R script that gets a gene panel
-# This writes out a file called "gene_panel_atrial_fibrillation.csv"
-# Contains which genes to filter for from the VCF annotations
-# Under column "gene_symbol"
-# The file output is "gene_panel_${PHENOTYPE}.tsv" (with spaces changed to underscore)
-# Placed in the 'data' folder of the 'genetics' repository
-# Only need to do this once per phenotype of interest
+# STEP 1 -----------------------------------------------------------------------
+
+# First part of the script is to call the R script that gets a gene panel.
+# This writes out a file called "gene_panel_atrial_fibrillation.csv".  Contains
+# which genes to filter for from the VCF annotations under column
+# "gene_symbol".  The file output is "gene_panel_${PHENOTYPE}.tsv" (with spaces
+# changed to underscore).  
+#
+# Placed in the 'data' folder of the 'genetics' repository.  Only need to do
+# this once per phenotype of interest
 PHENOTYPE="atrial fibrillation"
 PANEL_TSV="$HOME/projects/genetics/data/gene_panel_${PHENOTYPE// /_}.tsv"
 
@@ -45,7 +47,7 @@ else
     echo "Gene panel created successfully: $PANEL_TSV (${LINES} lines)"
 fi
 
-# STEP 2
+# STEP 2 -----------------------------------------------------------------------
 # Second part is to filter VEP files for the genes in the gene panel
 # Will need the `gene_symbol` to identify which gene to filter for
 # Batch this over the number of files available in the VEP folders
@@ -57,7 +59,7 @@ GENE_LIST=$(awk 'NR > 1 { print $1 }' "$PANEL_TSV" | paste -sd ',' -)
 # Standard I/O directories
 # The local directory folders
 # THe individual scripts places this in the DARBAR/data/genetics path 
-BATCH_DIR="uic_first_batch"
+BATCH_DIR="uic_second_batch"
 INPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep"
 OUTPUT_DIR="$HOME/cardio_darbar_chi_link/data/genetics/${BATCH_DIR}/vep_filtered"
 
@@ -77,7 +79,8 @@ for f in "${INPUT_FILES[@]}"; do
     fi
 done
 
-# SLURM submission
+# SLURM submission -------------------------------------------------------------
+
 # This needs to be run several times because of the space limit
 # Array limited to about 100 runs at a time
 # After files have been filtered will not need to re-run jobs from this
@@ -86,16 +89,4 @@ done
 # 1 = batch directory
 # 2 = Gene list variable (bash array)
 # 3 = VEP file array (bash array)
-
 sbatch submit-array-filter-vep.sh "${BATCH_DIR}" "${GENE_LIST}" "${TODO_FILES[@]}"
-
-# STEP 3
-# Third part is to combine all filtered VEP files into a CSV file.  This can
-# later be merged with other folders for a study if needed.  This will be done
-# with an R script that is `sbatch` submitted. It's saved into the working
-# folder that the filtered variants from above were created in. 
-sbatch submit-convert-vep-to-table.sh "${BATCH_DIR}"
-
-# TODO
-# This script (STEP 3) is not running for some reason - I think its because the above script is using up too many array spots
-# We should loop through the previous before moving to this step

@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Main script to run VEP command in batch mode
 # Uses a SLURM submission script to set up array
 # Array then analyzes one VCF file at a time

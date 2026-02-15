@@ -12,7 +12,7 @@
 export R_LIBS_USER="~/tools/R/library"
 
 # Load R module
-module load R/4.4.1-gfbf-2023b
+module load R/4.4.2-gfbf-2024a
 
 # Variables
 PHENOTYPE="$1"

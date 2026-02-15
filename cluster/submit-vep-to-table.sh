@@ -25,4 +25,4 @@ module load R/4.4.2-gfbf-2024a
 # Takes following arguments:
 # 1 = batch directory
 # 2 = SLURM cpus per task
-Rscript convert-vep-to-table.R "${BATCH_DIR}" "${SLURM_CPUS_PER_TASK}"
+Rscript vep-to-table.R "${BATCH_DIR}" "${SLURM_CPUS_PER_TASK}"

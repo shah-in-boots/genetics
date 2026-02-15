@@ -10,7 +10,7 @@
 
 # Script for submission 
 # This has
-# Ex: `sbatch submit-convert-vep-to-table.sh "${BATCH_DIR}"``
+# Ex: `sbatch submit-vep-to-table.sh "${BATCH_DIR}"``
 
 # Take arguments from command line
 BATCH_DIR="$1"

@@ -82,4 +82,4 @@ apptainer exec \
 	--show_ref_allele \
 	--force_overwrite \
 	--dir_plugins /plugins/loftee \
-	--plugin "LoF,loftee_path:/plugins/loftee,human_ancestor_fa:false,conservation_file:/plugins/loftee/loftee.sql,gerp_bigwig:/plugins/loftee/gerp_conservation_scores.homo_sapiens.GRCh38.bw"
+	--plugin "LoF,loftee_path:/plugins/loftee,human_ancestor_fa:/plugins/loftee/human_ancestor.fa,conservation_file:/plugins/loftee/loftee.sql,gerp_bigwig:/plugins/loftee/gerp_conservation_scores.homo_sapiens.GRCh38.bw"
